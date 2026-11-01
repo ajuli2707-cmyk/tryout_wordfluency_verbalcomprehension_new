@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tryout Word Fluency + Verbal Comprehension</title>
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--ink:#1c2036;--mut:#5d6385;--line:#d9dcef;--pri:#3949ab;--pri2:#283593;--on:#fff;--ok:#2e7d32;--okb:#e6f4e7;--bad:#c62828;--badb:#fdeaea;--tile:#e8eaf6;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142a;--card:#1b1e3a;--ink:#e8eaf8;--mut:#a3a9d0;--line:#2f3460;--pri:#7986cb;--pri2:#9fa8da;--on:#10132b;--ok:#81c784;--okb:#173321;--bad:#ef9a9a;--badb:#3a1c1c;--tile:#262b52;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12142a;--card:#1b1e3a;--ink:#e8eaf8;--mut:#a3a9d0;--line:#2f3460;--pri:#7986cb;--pri2:#9fa8da;--on:#10132b;--ok:#81c784;--okb:#173321;--bad:#ef9a9a;--badb:#3a1c1c;--tile:#262b52;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+#app{max-width:780px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+h1{font-size:1.6rem;margin:.2em 0}h2{font-size:1.2rem;margin:.2em 0 .5em}
+.mut{color:var(--mut)}.sm{font-size:.88rem}
+.hero{background:linear-gradient(135deg,#283593,#7e57c2);color:#fff;border:0}.hero .mut{color:#dfe3ff}
+.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:var(--pri);color:var(--on);cursor:pointer}
+.btn:hover{background:var(--pri2)}.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:default}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mode{text-align:left;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer}
+.mode:hover{border-color:var(--pri)}.mode b{display:block;font-size:1.05rem}
+.top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.badge{display:inline-block;border-radius:99px;padding:3px 12px;font-size:.8rem;font-weight:700;background:var(--tile);color:var(--pri2)}
+.timer{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.25rem}.timer.low{color:var(--bad)}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden;margin:10px 0 14px}.bar i{display:block;height:100%;background:var(--pri);transition:width .2s}
+.q{color:var(--mut);margin:0 0 10px;font-size:.95rem}
+.wf{font-size:2rem;font-weight:800;letter-spacing:.18em;text-align:center;background:var(--tile);border-radius:12px;padding:12px;margin:8px 0 14px}
+.sent{font-size:1.15rem;background:var(--tile);border-radius:12px;padding:14px;margin:8px 0 14px}.sent b{color:var(--pri2);text-decoration:underline}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;padding:11px 12px;cursor:pointer;text-align:left;display:flex;gap:10px;align-items:center}
+.opt i{font-style:normal;font-weight:800;color:var(--pri2);min-width:1.2em}.opt:hover:not(:disabled){border-color:var(--pri)}.opt.sel{border-color:var(--pri);background:var(--tile)}
+.opt.ok{border-color:var(--ok);background:var(--okb)}.opt.no{border-color:var(--bad);background:var(--badb)}.opt:disabled{cursor:default}
+.fb{margin-top:12px;padding:10px 12px;border-radius:12px;font-size:.92rem}.fb.ok{background:var(--okb)}.fb.no{background:var(--badb)}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px}
+.pal{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.pal button{font:inherit;font-size:.72rem;padding:6px 0;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.pal .done{background:var(--tile);border-color:var(--pri)}.pal .ok{background:var(--okb);border-color:var(--ok)}.pal .no{background:var(--badb);border-color:var(--bad)}.pal .cur{outline:2px solid var(--pri2)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center}.stats b{display:block;font-size:1.6rem}
+table{width:100%;border-collapse:collapse;font-size:.92rem}td,th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left}
+.rv{border-top:1px solid var(--line);padding:10px 0;font-size:.92rem}.tag{font-weight:700}.tag.ok{color:var(--ok)}.tag.no{color:var(--bad)}
+.tabs{display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+@media(max-width:560px){.modes,.opts{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.wf{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+var WF=["SAWAH:SIWAH,SOWAH,SUWAH,SEWAH","TEBING:TIBING,TOBING,TUBING,TEBONG","UDARA:UDERA,UDIRA,UDORA,UDURA","BADAI:BEDAI,BIDAI,BODAI,BUDAI","PETIR:PATIR,PITIR,POTIR,PETUR","KABUT:KIBUT,KOBUT,KUBUT,KABET","EMBUN:EMBIN,EMBON,EMBEN,ELBUN","SALJU:SELJU,SILJU,SOLJU,SULJU","CELANA:CILANA,COLANA,CULANA,CELUNA","BENANG:BINANG,BUNANG,BENUNG,BENONG","JARUM:JERUM,JIRUM,JORUM,JURUM","MANGKUK:MINGKUK,MONGKUK,MENGKUK,MANGKIK","PANCI:PENCI,PINCI,PONCI,PUNCI","WAJAN:WEJAN,WIJAN,WOJAN,WUJAN","KOMPOR:KAMPOR,KEMPOR,KIMPOR,KUMPOR","SAPU:SEPU,SIPU,SOPU,SUPU","EMBER:EMBAR,EMBIR,EMBOR,EMBUR","SABUN:SEBUN,SIBUN,SOBUN,SUBUN","HANDUK:HENDUK,HINDUK,HONDUK,HUNDUK","KASUR:KESUR,KISUR,KOSUR,KASOR","BANTAL:BENTAL,BINTAL,BONTAL,BANTOL","SELIMUT:SALIMUT,SILIMUT,SOLIMUT,SULIMUT","HALAMAN:HELAMAN,HILAMAN,HOLAMAN,HULAMAN","PAGAR:PEGAR,PIGAR,POGAR,PUGAR","STASIUN:STASEUN,STISIUN,STOSIUN,STUSIUN","BAJU:BEJU,BIJU,BOJU,BUJU","KAIN:KEIN,KUIN,KIIN,KAUN","DESA:DISA,DUSA,DEBA,DEGA","KAMPUNG:KEMPUNG,KIMPUNG,KOMPUNG,KAMPANG","TEMBAGA:TIMBAGA,TOMBAGA,TUMBAGA,TEMBIGA","KELAPA:KILAPA,KOLAPA,KULAPA,KELIPA","SEMUT:SIMUT,SOMUT,SAMUT,SEMIT","NYAMUK:NYEMUK,NYIMUK,NYOMUK,NYUMUK","BURUNG:BARUNG,BIRUNG,BORUNG,BERUNG","DOMBA:DEMBA,DIMBA,DUMBA,DAMBA","SERIGALA:SARIGALA,SIRIGALA,SORIGALA,SURIGALA","SEMEN:SIMEN,SOMEN,SAMEN,SUMEN","BESI:BISI,BOSI,BEKI,BENI","KAYU:KIYU,KOYU,KUYU,KEYU","PALU:PELU,POLU,PULU,PIRU","MENTEGA:MANTEGA,MINTEGA,MONTEGA,MUNTEGA","TEPUNG:TAPUNG,TIPUNG,TOPUNG,TUPUNG","CABAI:CEBAI,CIBAI,COBAI,CUBAI","BAWANG:BEWANG,BIWANG,BOWANG,BUWANG","TOMAT:TEMAT,TIMAT,TUMAT,TOMIT","KENTANG:KANTANG,KINTANG,KONTANG,KUNTANG","LEBAH:LIBAH,LOBAH,LUBAH,LEBOH","TIKUS:TAKUS,TEKUS,TOKUS,TUKUS","BELUT:BILUT,BOLUT,BULUT,BELET","GERGAJI:GARGAJI,GIRGAJI,GORGAJI,GURGAJI"];
+var VC=["Struktur bangunan itu **kokoh** menahan gempa.|kuat|rapuh,goyah,lemah,ringkih","Penggunaan ponsel di kantor sudah **lazim**.|umum|aneh,langka,janggal,asing","Hujan turun **sporadis** di beberapa wilayah.|tidak merata|merata,terus-menerus,serentak,teratur","Mereka memakai teknologi **mutakhir** dalam produksi.|terbaru|kuno,usang,lampau,biasa","Penjelasan dosen itu sangat **gamblang**.|jelas|samar,rumit,berbelit,kabur","**Kendala** utama proyek itu adalah dana.|hambatan|dukungan,peluang,bantuan,kemudahan","Gerakan petugas yang **gesit** menyelamatkan korban.|lincah|lamban,malas,lesu,kaku","Tim itu **solid** sehingga mudah mencapai target.|kompak|terpecah,rapuh,longgar,renggang","Air bersih sangat **vital** bagi kehidupan.|sangat penting|remeh,sampingan,tambahan,biasa","Anggaran pelatihan tahun ini **minim**.|sedikit|banyak,melimpah,berlebih,cukup","Kebijakan itu dinyatakan secara **eksplisit** dalam aturan.|jelas dan tegas|tersirat,samar,tersembunyi,rahasia","Makna kritik itu **implisit** dalam pidatonya.|tersirat|jelas,nyata,terang,terbuka","Gaya bicaranya **persuasif** sehingga banyak yang setuju.|bersifat membujuk|memaksa,mengancam,melarang,mengabaikan","Keputusan itu **rasional** dan dapat dipertanggungjawabkan.|masuk akal|mustahil,emosional,sembarangan,sembrono","Ia memahami **hakikat** pekerjaan seorang pelayan publik.|inti|kulit,hiasan,akibat,sampingan","Latihan dilakukan secara **kontinu** setiap hari.|berkesinambungan|terputus,sesekali,musiman,sementara","**Prosedur** pengajuan cuti sudah ditetapkan.|tata cara|hasil,tujuan,hukuman,hadiah","Ia memahami **substansi** perjanjian itu.|isi pokok|kemasan,hiasan,sampul,bungkus","Data tersebut **relevan** dengan topik penelitian.|berkaitan|tidak berkaitan,keliru,asing,usang","Hasil **optimal** hanya dicapai dengan kerja sama.|paling baik|terburuk,seadanya,rata-rata,minimal","Ia menghadapi **dilema** antara karier dan keluarga.|situasi sulit memilih|kepastian,kemenangan,kemudahan,kesepakatan","Perusahaan **mengantisipasi** lonjakan pesanan.|bersiap menghadapi|mengabaikan,menunda,menolak,melupakan","Ia mengemukakan **gagasan** baru dalam rapat.|ide|akibat,hasil,keluhan,beban","Anak itu **lugu** sehingga mudah percaya.|polos|licik,cerdik,culas,angkuh","Pemimpin yang **arif** mendengar semua pihak.|bijaksana|bodoh,ceroboh,sombong,serakah","Petugas **sigap** menangani kebakaran itu.|cekatan|lalai,lamban,ragu,acuh","Ia **tekun** belajar setiap malam.|rajin dan ulet|malas,ceroboh,mudah bosan,asal-asalan","Ia **cermat** memeriksa setiap berkas.|teliti|sembrono,lalai,tergesa-gesa,asal-asalan","Pekerjaan itu **tuntas** sebelum tenggat.|selesai sepenuhnya|setengah jalan,tertunda,terbengkalai,gagal","Suasana kerja yang **kondusif** meningkatkan produktivitas.|mendukung|menghambat,mengganggu,merugikan,membingungkan","Atlet itu **tangguh** menghadapi tekanan.|kuat dan tahan uji|rapuh,lemah,mudah menyerah,goyah","Banyak pihak **menyokong** program tersebut.|mendukung|menentang,melemahkan,mengabaikan,menghalangi","Mediator berusaha **meredam** ketegangan antarwarga.|menenangkan|memperbesar,mengobarkan,menyulut,mempercepat","Pemerintah menjaga hutan agar tetap **lestari**.|terjaga kelangsungannya|musnah,punah,berubah,rusak","Pengunjung **membludak** pada hari libur.|meluap|menyusut,berkurang,sepi,hilang","Penjualan perusahaan itu **terpuruk** akibat krisis.|merosot tajam|bangkit,melonjak,menanjak,berkembang","Ia **berdalih** bahwa jalanan macet.|mengelak dengan alasan|mengaku,berterus terang,menerima,meminta maaf","Ia **mencetuskan** ide kegiatan sosial itu.|mengemukakan|menghapus,menyembunyikan,mengabaikan,menolak","Mahasiswa **menggalang** dana untuk korban banjir.|mengumpulkan|membubarkan,memecah,menyebarkan,menolak","Pengesahan itu **mengukuhkan** posisinya sebagai ketua.|menguatkan|melemahkan,membatalkan,menggoyahkan,menunda","Tim khusus **memantau** perkembangan harga.|mengawasi|mengabaikan,menghentikan,menolak,melupakan","Para teknisi **merampungkan** pekerjaan tepat waktu.|menyelesaikan|memulai,menunda,menghentikan,membatalkan","Saksi **mengungkapkan** kronologi kejadian itu.|membeberkan|menutupi,menyembunyikan,merahasiakan,menyimpan","Ia **menepis** anggapan bahwa dirinya bersalah.|menolak|menerima,membenarkan,mendukung,mengakui","Ia **mencermati** isi kontrak sebelum menandatangani.|memperhatikan dengan teliti|mengabaikan,melewatkan,menyepelekan,melupakan","Fasilitas ruang belajar itu sudah **memadai**.|cukup|kurang,tidak layak,minim,berlebihan","Ia **bimbang** memilih tawaran pekerjaan itu.|ragu-ragu|yakin,mantap,tegas,berani","Sungguh **ironis**, desa penghasil padi itu kekurangan beras.|bertolak belakang dengan harapan|sesuai harapan,wajar,menyenangkan,biasa","Ia seorang insinyur yang **mumpuni**.|cakap|awam,pemula,lemah,tidak cakap","Rapat evaluasi digelar secara **berkala**.|secara teratur|sekali saja,sewaktu-waktu,jarang sekali,mendadak"];
+var SEC=[{n:"Word Fluency",t:300,q:"Berikut disajikan huruf awal dan akhir sebuah kata dasar yang tercantum dalam KBBI. Pilih satu (1) kata yang paling tepat."},{n:"Verbal Comprehension",t:600,q:"Pilih padanan kata yang paling tepat untuk kata yang ditebalkan sesuai kalimat."}];
+var L="ABCDE",N=50;
+function mk(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuf(r,a){for(var i=a.length-1;i>0;i--){var j=Math.floor(r()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function build(seed){var r=mk(seed);
+var w=shuf(r,WF.slice()).map(function(x){var p=x.split(":"),c=p[0],d=p[1].split(","),o=shuf(r,[c].concat(d));
+return{h:c[0]+" "+c.slice(1,-1).split("").map(function(){return"_"}).join(" ")+" "+c.slice(-1),o:o,a:o.indexOf(c),e:"Kata dasar baku yang sesuai pola adalah "+c+". Opsi lain ("+d.join(", ")+") bukan kata dalam KBBI."}});
+var v=shuf(r,VC.slice()).map(function(x){var p=x.split("|"),d=p[2].split(","),o=shuf(r,[p[1]].concat(d)),k=(p[0].match(/\*\*(.+?)\*\*/)||[,""])[1];
+return{s:p[0],o:o,a:o.indexOf(p[1]),e:"Dalam kalimat ini, "+k+" bermakna “"+p[1]+"”. Opsi lain ("+d.join(", ")+") tidak sepadan dengan makna kata tersebut."}});
+return[w,v]}
+var S={seed:2026,d:null,mode:null,sec:0,i:0,ans:[[],[]],left:0,tm:null,view:"start",f:"all"};
+var $=document.getElementById("app");
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function fmt(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+function last(){try{return JSON.parse(localStorage.getItem("wfvc")||"null")}catch(e){return null}}
+function save(o){try{localStorage.setItem("wfvc",JSON.stringify(o))}catch(e){}}
+function start(){S.view="start";var h=last();
+$.innerHTML='<div class="card hero"><h1>Tryout Word Fluency + Verbal Comprehension</h1><p class="mut">Dua bagian dalam satu tryout: 50 soal Word Fluency dan 50 soal Verbal Comprehension. Pilih jawaban dengan sekali klik.</p></div>'+
+'<div class="card"><h2>Pilih mode belajar</h2><div class="modes"><button class="mode" data-a="go" data-m="tryout"><b>Mode Tryout</b><span class="mut sm">Word Fluency 5 menit, lalu Verbal Comprehension 10 menit. Bagian yang sudah selesai tidak bisa dibuka lagi. Pembahasan di akhir.</span></button><button class="mode" data-a="go" data-m="latihan"><b>Mode Latihan</b><span class="mut sm">Tanpa batas waktu. Jawaban langsung dinilai dan dijelaskan.</span></button></div></div>'+
+'<div class="card"><h2>Tentang soal</h2><table><tr><th>Bagian</th><th>Soal</th><th>Waktu</th><th>Tugas</th></tr><tr><td>1. Word Fluency</td><td>50</td><td>5 menit</td><td>Pilih kata dasar KBBI sesuai huruf awal dan akhir</td></tr><tr><td>2. Verbal Comprehension</td><td>50</td><td>10 menit</td><td>Pilih padanan kata yang ditebalkan</td></tr></table><p class="sm mut">Tips Word Fluency: hitung jumlah garis kosong, ucapkan tiap opsi dalam hati, dan buang susunan huruf yang janggal. Tips Verbal: masukkan tiap opsi ke dalam kalimat. Keyboard: A–E atau 1–5 untuk memilih, panah kiri/kanan untuk pindah soal.</p></div>'+
+'<div class="card top"><span class="sm mut">Paket nomor <b>'+S.seed+'</b>'+(h?" · hasil terakhir: skor "+h.s+" dari 100 ("+h.m+")":"")+'</span><button class="btn alt" data-a="new">Acak urutan baru</button></div>'}
+function go(m){S.mode=m;S.d=build(S.seed);S.ans=[new Array(N).fill(-1),new Array(N).fill(-1)];S.sec=0;S.i=0;S.f="all";S.view="quiz";begin()}
+function begin(){clearInterval(S.tm);S.i=0;S.left=SEC[S.sec].t;
+if(S.mode==="tryout")S.tm=setInterval(function(){S.left--;var t=document.getElementById("t");if(t){t.textContent=fmt(S.left);t.className="timer"+(S.left<=60?" low":"")}if(S.left<=0)endSec()},1000);quiz()}
+function quiz(){var D=S.d[S.sec],q=D[S.i],A=S.ans[S.sec],a=A[S.i],lat=S.mode==="latihan",lock=lat&&a>=0;
+var ob=q.o.map(function(o,k){var c="opt";if(lock){if(k===q.a)c+=" ok";else if(k===a)c+=" no"}else if(k===a)c+=" sel";return'<button class="'+c+'" data-a="pick" data-k="'+k+'"'+(lock?" disabled":"")+'><i>'+L[k]+'</i>'+esc(o)+'</button>'}).join("");
+var fb=lock?'<div class="fb '+(a===q.a?"ok":"no")+'"><b>'+(a===q.a?"Benar!":"Kurang tepat.")+"</b> "+esc(q.e)+"</div>":"";
+var stem=S.sec===0?'<div class="wf">'+q.h+'</div>':'<div class="sent">'+esc(q.s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")+'</div>';
+var pal=D.map(function(x,j){var c=A[j]<0?"":lat?(A[j]===x.a?"ok":"no"):"done";if(j===S.i)c+=" cur";return'<button class="'+c+'" data-a="jump" data-j="'+j+'">'+(j+1)+'</button>'}).join("");
+var n=A.filter(function(x){return x>=0}).length,fin=S.sec===0?"Selesai bagian 1":"Selesai tryout";
+$.innerHTML='<div class="card"><div class="top"><span><b>'+SEC[S.sec].n+' · Soal '+(S.i+1)+" / "+N+'</b></span>'+(S.mode==="tryout"?'<span class="timer'+(S.left<=60?" low":"")+'" id="t">'+fmt(S.left)+'</span>':'<span class="badge">Mode Latihan</span>')+'</div><div class="bar"><i style="width:'+(n/N*100)+'%"></i></div><p class="q">'+SEC[S.sec].q+'</p>'+stem+'<div class="opts">'+ob+'</div>'+fb+
+'<div class="nav"><button class="btn alt" data-a="prev"'+(S.i===0?" disabled":"")+'>← Sebelumnya</button>'+(S.i===N-1?'<button class="btn" data-a="fin">'+fin+'</button>':'<button class="btn" data-a="next">Selanjutnya →</button>')+'</div></div>'+
+'<div class="card"><div class="top" style="margin-bottom:8px"><span class="sm mut">Dijawab '+n+" dari "+N+'</span><button class="btn alt" data-a="fin">'+fin+'</button></div><div class="pal">'+pal+'</div></div>'}
+function endSec(){clearInterval(S.tm);if(S.sec===0){S.sec=1;if(S.mode==="tryout"){S.view="mid";$.innerHTML='<div class="card hero"><h1>Bagian 1 selesai</h1><p class="mut">Siap lanjut ke Verbal Comprehension? Waktu 10 menit mulai berjalan setelah Anda menekan tombol di bawah.</p></div><div class="card"><button class="btn" data-a="b2">Mulai Verbal Comprehension</button></div>';return}begin()}else finish()}
+function finish(){clearInterval(S.tm);S.view="res";var R=[0,1].map(function(s){var c=0,a=0;S.d[s].forEach(function(q,i){var u=S.ans[s][i];if(u>=0){a++;if(u===q.a)c++}});return{c:c,a:a}});S.R=R;
+save({s:R[0].c+R[1].c,m:S.mode==="tryout"?"Tryout":"Latihan"});result()}
+function result(){var R=S.R,c=R[0].c+R[1].c,a=R[0].a+R[1].a,acc=a?Math.round(c/a*100):0;
+var rows=R.map(function(r,i){return"<tr><td>"+SEC[i].n+"</td><td>"+r.c+" / 50</td><td>"+r.a+" dijawab</td><td>"+(r.a?Math.round(r.c/r.a*100):0)+"%</td></tr>"}).join("");
+var list=[];[0,1].forEach(function(s){S.d[s].forEach(function(q,i){var u=S.ans[s][i];if(S.f==="all"||(S.f==="wrong"&&u>=0&&u!==q.a)||(S.f==="blank"&&u<0))list.push({s:s,i:i,q:q,u:u})})});
+var rv=list.map(function(x){var ok=x.u===x.q.a,bl=x.u<0,t=x.s===0?x.q.h:esc(x.q.s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+return'<div class="rv"><span class="mut sm">'+(x.s?"Verbal":"Word")+" "+(x.i+1)+'</span> <span class="tag '+(ok?"ok":"no")+'">'+(ok?"Benar":bl?"Kosong":"Salah")+'</span><div><b>'+t+'</b></div><div class="mut sm">Pilihan Anda: '+(bl?"-":L[x.u]+" ("+esc(x.q.o[x.u])+")")+" · Kunci: "+L[x.q.a]+" ("+esc(x.q.o[x.q.a])+')</div><div>'+esc(x.q.e)+"</div></div>"}).join("")||'<p class="mut">Tidak ada soal pada kategori ini.</p>';
+function tb(k,t){return'<button class="btn '+(S.f===k?"":"alt")+'" data-a="flt" data-f="'+k+'">'+t+"</button>"}
+$.innerHTML='<div class="card hero"><h1>Hasil '+(S.mode==="tryout"?"Tryout":"Latihan")+'</h1><p class="mut">Skor '+c+" dari 100 · akurasi "+acc+"% dari soal yang dijawab</p></div>"+
+'<div class="card stats"><div><b>'+c+'</b><span class="mut sm">Benar</span></div><div><b>'+(a-c)+'</b><span class="mut sm">Salah</span></div><div><b>'+(100-a)+'</b><span class="mut sm">Kosong</span></div><div><b>'+acc+'%</b><span class="mut sm">Akurasi</span></div></div>'+
+'<div class="card"><h2>Per bagian</h2><table>'+rows+'</table></div><div class="card"><h2>Pembahasan</h2><div class="tabs">'+tb("all","Semua")+tb("wrong","Salah")+tb("blank","Kosong")+'</div>'+rv+'</div><div class="card top"><button class="btn" data-a="go" data-m="'+S.mode+'">Ulangi</button><button class="btn alt" data-a="home">Menu utama</button></div>'}
+$.addEventListener("click",function(e){var b=e.target.closest("[data-a]");if(!b||b.disabled)return;var a=b.dataset.a,A=S.ans[S.sec];
+if(a==="go")go(b.dataset.m);else if(a==="new"){S.seed=Math.floor(Math.random()*90000)+10000;start()}
+else if(a==="pick"){if(S.mode==="latihan"&&A[S.i]>=0)return;A[S.i]=+b.dataset.k;quiz()}
+else if(a==="next"){S.i=Math.min(S.i+1,N-1);quiz()}else if(a==="prev"){S.i=Math.max(S.i-1,0);quiz()}else if(a==="jump"){S.i=+b.dataset.j;quiz()}
+else if(a==="fin"){var n=A.filter(function(x){return x<0}).length;if(!n||confirm("Masih ada "+n+" soal kosong. Akhiri bagian ini sekarang?"))endSec()}
+else if(a==="b2"){S.view="quiz";begin()}else if(a==="flt"){S.f=b.dataset.f;result()}else if(a==="home"){start()}});
+document.addEventListener("keydown",function(e){if(S.view!=="quiz")return;var A=S.ans[S.sec],k="abcde".indexOf(e.key.toLowerCase());if(k<0&&/^[1-5]$/.test(e.key))k=+e.key-1;
+if(k>=0&&e.key.length===1){if(S.mode==="latihan"&&A[S.i]>=0)return;A[S.i]=k;quiz()}else if(e.key==="ArrowRight"){S.i=Math.min(S.i+1,N-1);quiz()}else if(e.key==="ArrowLeft"){S.i=Math.max(S.i-1,0);quiz()}});
+start();
+})();
+</script>
+</body>
+</html>
